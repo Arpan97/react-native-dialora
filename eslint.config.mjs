@@ -30,6 +30,7 @@ export default defineConfig([
       '**/build/**',
       '**/dist/**',
       '**/.expo/**',
+      '**/coverage/**',
       'example/ios/**',
       'example/android/**',
     ],
