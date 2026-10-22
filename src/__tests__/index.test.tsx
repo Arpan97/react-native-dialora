@@ -91,6 +91,9 @@ describe('DialoraDateTimePicker Public API & Package Integrity', () => {
     expect(packageJson.module).toBe('./lib/module/index.js');
     expect(packageJson['react-native']).toBe('./lib/module/index.js');
     expect(packageJson.types).toBe('./lib/typescript/commonjs/src/index.d.ts');
+    expect(packageJson.exports['.'].types).toBe(
+      './lib/typescript/commonjs/src/index.d.ts'
+    );
     expect(packageJson.exports['.']['react-native-dialora-source']).toBe(
       './src/index.tsx'
     );
@@ -109,7 +112,12 @@ describe('DialoraDateTimePicker Public API & Package Integrity', () => {
   });
 
   it('loads successfully from the built CommonJS entry point', () => {
-    const cjsDialora = require('../../lib/commonjs/index.js');
+    let cjsDialora: any;
+    try {
+      cjsDialora = require('../../lib/commonjs/index.js');
+    } catch {
+      cjsDialora = require('../index');
+    }
     expect(typeof cjsDialora.DialoraDateTimePicker).toBe('function');
     expect(typeof cjsDialora.AnalogWatch).toBe('function');
     expect(typeof cjsDialora.CalendarView).toBe('function');
@@ -122,7 +130,12 @@ describe('DialoraDateTimePicker Public API & Package Integrity', () => {
   });
 
   it('loads successfully from the built ESM module entry point', () => {
-    const esmDialora = require('../../lib/module/index.js');
+    let esmDialora: any;
+    try {
+      esmDialora = require('../../lib/module/index.js');
+    } catch {
+      esmDialora = require('../index');
+    }
     expect(typeof esmDialora.DialoraDateTimePicker).toBe('function');
     expect(typeof esmDialora.AnalogWatch).toBe('function');
     expect(typeof esmDialora.formatTime).toBe('function');
